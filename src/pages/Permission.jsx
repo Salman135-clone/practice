@@ -115,7 +115,7 @@ const Permission = () => {
                 name="perField"
                 value={perField}
                 onChange={(e) => setPerField(e.target.value)}
-                placeholder="Type Here .... "
+                placeholder="Permission Name (e.g add-user) "
                 className="border border-gray-300 rounded-sm px-3 py-2 lg:ml-3 md:ml-3 "
               />
             </div>
