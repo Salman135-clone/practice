@@ -18,6 +18,14 @@ import { authProvider } from "../context/MyProvider";
 import PermissionChecker from "../components/PermissionChecker";
 import ActionButton from "../components/ActionButton";
 import { CircularProgress } from "@mui/material";
+import IconButton from "@mui/joy/IconButton";
+import Menu from "@mui/joy/Menu";
+import ListDivider from "@mui/joy/ListDivider";
+import MoreVert from "@mui/icons-material/MoreVert";
+import MenuButton from "@mui/joy/MenuButton";
+import Dropdown from "@mui/joy/Dropdown";
+import { Popper } from "@mui/base"; // ✅ Correct
+import { Portal } from "@mui/base";
 
 const UserList = () => {
   const { rolesList, allPermission } = authProvider();
@@ -128,33 +136,52 @@ const UserList = () => {
     {
       header: "Action",
       render: (dataRow) => (
-        <span className="flex gap-2">
-          <ActionButton
-            permission="edit-user-role"
-            defaultStyle="px-3 py-1 rounded "
-            disabledColor="bg-gray-400 text-gray-500 cursor-not-allowed"
-            normalColor="bg-blue-400 hover:bg-blue-600 hover:text-white cursor-pointer"
-            onClick={() => openDialog(dataRow)}
-          >
-            <span className="flex items-center gap-1">
-              <PencilSquareIcon className="w-5 h-5 text-white " />
-              <span className="text-gray-100">Edit</span>
-            </span>
-          </ActionButton>
+        <Dropdown>
+          <MenuButton slots={{ root: IconButton }}>
+            <MoreVert />
+          </MenuButton>
 
-          <ActionButton
-            permission={"delete-user"}
-            onClick={() => alert(`${dataRow.role}`)}
-            defaultStyle="px-3 py-1 rounded"
-            disabledColor="bg-gray-400 text-gray-500 cursor-not-allowed"
-            normalColor="bg-red-400 hover:bg-red-600 hover:text-white cursor-pointer"
+          <Menu
+            placement="left-start"
+            sx={{
+              minWidth: 100,
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+              },
+            }}
           >
-            <span className="flex items-center gap-1">
-              <TrashIcon className="text-white w-5  h-5" />
-              <span className="text-gray-100">Delete</span>
-            </span>
-          </ActionButton>
-        </span>
+            <MenuItem onClick={() => openDialog(dataRow)}>Edit</MenuItem>
+            <MenuItem sx={{ color: "error.main" }}>Delete</MenuItem>
+          </Menu>
+        </Dropdown>
+
+        // <span className="flex gap-2">
+        //   <ActionButton
+        //     permission="edit-user-role"
+        //     defaultStyle="px-3 py-1 rounded "
+        //     disabledColor="bg-gray-400 text-gray-500 cursor-not-allowed"
+        //     normalColor="bg-blue-400 hover:bg-blue-600 hover:text-white cursor-pointer"
+        //     onClick={() => openDialog(dataRow)}
+        //   >
+        //     <span className="flex items-center gap-1">
+        //       <PencilSquareIcon className="w-5 h-5 text-white " />
+        //       <span className="text-gray-100">Edit</span>
+        //     </span>
+        //   </ActionButton>
+
+        //   <ActionButton
+        //     permission={"delete-user"}
+        //     onClick={() => alert(`${dataRow.role}`)}
+        //     defaultStyle="px-3 py-1 rounded"
+        //     disabledColor="bg-gray-400 text-gray-500 cursor-not-allowed"
+        //     normalColor="bg-red-400 hover:bg-red-600 hover:text-white cursor-pointer"
+        //   >
+        //     <span className="flex items-center gap-1">
+        //       <TrashIcon className="text-white w-5  h-5" />
+        //       <span className="text-gray-100">Delete</span>
+        //     </span>
+        //   </ActionButton>
+        // </span>
       ),
     },
   ];

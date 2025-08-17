@@ -233,7 +233,7 @@ const Dashboard = () => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="size-6 absolute top-1.5 left-2.5 text-gray-200 cursor-pointer"
+                      className="size-6 absolute top-1.5 left-2.5 text-gray-400 cursor-pointer"
                     >
                       <path
                         strokeLinecap="round"

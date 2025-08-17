@@ -6,6 +6,8 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import PermissionChecker from "./PermissionChecker";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
+import Transaction from "../pages/Transaction";
 
 const SideNav = () => {
   const navigate = useNavigate();
@@ -58,6 +60,17 @@ const SideNav = () => {
                   >
                     <CiUser size={19} />
                     User
+                  </a>
+                </li>
+              </PermissionChecker>
+              <PermissionChecker name="manage-transaction">
+                <li>
+                  <a
+                    onClick={() => navigate("/transaction")}
+                    className="flex items-center gap-2 py-2 px-2.5 cursor-pointer hover:bg-gray-600 rounded-sm"
+                  >
+                    <BanknotesIcon className="size-5" />
+                    Transaction
                   </a>
                 </li>
               </PermissionChecker>

@@ -12,6 +12,7 @@ import UserList from "./pages/UserList";
 import Role from "./pages/Role";
 import Permission from "./pages/Permission";
 import AddRole from "./components/AddRole";
+import Transaction from "./pages/Transaction";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/role" element={<Role />} />
             <Route path="/role/add/:id?" element={<AddRole />} />
             <Route path="/permission" element={<Permission />} />
+            <Route path="/transaction" element={<Transaction />} />
           </Route>
         </Routes>
       </UserProvider>
