@@ -6,9 +6,9 @@ import { GoSortAsc } from "react-icons/go";
 import { GoSortDesc } from "react-icons/go";
 
 const Table = ({
-  columns,
+  columns = [],
   loading,
-  data,
+  data = [],
   sortColumn,
   setSortColumn,
   sortDirection,
@@ -17,8 +17,8 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
-  const paginatedData = data.slice(
+  const totalPages = Math.ceil(data?.length / rowsPerPage);
+  const paginatedData = data?.slice(
     currentPage * rowsPerPage,
     currentPage * rowsPerPage + rowsPerPage
   );
@@ -73,15 +73,15 @@ const Table = ({
                 </td>
               </tr>
             )}
-            {!loading && paginatedData.length > 0
-              ? paginatedData.map((dataRow, rowIndex) => (
+            {!loading && paginatedData?.length > 0
+              ? paginatedData?.map((dataRow, rowIndex) => (
                   <tr
                     key={dataRow.id || rowIndex}
                     className={`hover:bg-gray-100 ${
-                      rowIndex !== paginatedData.length - 1 ? "border-b" : ""
+                      rowIndex !== paginatedData?.length - 1 ? "border-b" : ""
                     } border-gray-200`}
                   >
-                    {columns.map((col, colIndex) => (
+                    {(columns || []).map((col, colIndex) => (
                       <td key={colIndex} className="px-3 py-2 truncate">
                         {col.render
                           ? col.render(dataRow)
@@ -101,7 +101,7 @@ const Table = ({
         </table>
         <TablePagination
           component="div"
-          count={data.length}
+          count={data?.length || 0}
           page={currentPage}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

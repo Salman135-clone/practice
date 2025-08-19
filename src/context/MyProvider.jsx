@@ -22,6 +22,7 @@ export const UserProvider = ({ children }) => {
   const [customePermission, setCustomePermission] = useState([]);
   const [combine, setCombine] = useState([]);
   const [roleName, setRoleName] = useState("");
+  const [allBorrowerList, setAllBorrowerList] = useState([]);
   // console.log(rolesList);
   // console.log(user);
   // console.log(userInfo);
@@ -137,6 +138,26 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("uid");
   };
 
+  useEffect(() => {
+    setLoading(true);
+    const q = onSnapshot(
+      collection(db, "borrower"),
+      (snapshot) => {
+        const result = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAllBorrowerList(result);
+        setLoading(false);
+      },
+      (error) => {
+        toast.error(error);
+        setLoading(false);
+      }
+    );
+    return () => q();
+  }, []);
+
   const hasPermission = (permName) => combine.includes(permName);
 
   return (
@@ -154,6 +175,7 @@ export const UserProvider = ({ children }) => {
         rolesList,
         allPermission,
         roleName,
+        allBorrowerList,
       }}
     >
       {children}

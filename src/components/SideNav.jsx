@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import PermissionChecker from "./PermissionChecker";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
 import Transaction from "../pages/Transaction";
+import { CiMoneyCheck1 } from "react-icons/ci";
+import Borrower from "../pages/Borrower";
 
 const SideNav = () => {
   const navigate = useNavigate();
@@ -60,6 +62,17 @@ const SideNav = () => {
                   >
                     <CiUser size={19} />
                     User
+                  </a>
+                </li>
+              </PermissionChecker>
+              <PermissionChecker name="manage-borrower">
+                <li>
+                  <a
+                    onClick={() => navigate("/borrower")}
+                    className="flex items-center gap-2 py-2 px-2.5 cursor-pointer hover:bg-gray-600 rounded-sm"
+                  >
+                    <CiMoneyCheck1 className="size-5" />
+                    Borrower
                   </a>
                 </li>
               </PermissionChecker>

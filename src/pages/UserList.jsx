@@ -24,8 +24,6 @@ import ListDivider from "@mui/joy/ListDivider";
 import MoreVert from "@mui/icons-material/MoreVert";
 import MenuButton from "@mui/joy/MenuButton";
 import Dropdown from "@mui/joy/Dropdown";
-import { Popper } from "@mui/base"; // ✅ Correct
-import { Portal } from "@mui/base";
 
 const UserList = () => {
   const { rolesList, allPermission } = authProvider();
