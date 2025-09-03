@@ -203,7 +203,7 @@ const Dashboard = () => {
         <div className=" mt-4">
           <div className="">
             <div className=" flex w-full items-center gap-4 py-2 mb-2 flex-wrap">
-              <div className="flex gap-1 items-center">
+              {/* <div className="flex gap-1 items-center">
                 <label className="text-sm font-medium text-gray-600">
                   From:
                 </label>
@@ -225,7 +225,7 @@ const Dashboard = () => {
                     }}
                   />
                 </LocalizationProvider>
-              </div>
+              </div> */}
               <div className="relative min-w-full sm:min-w-[500px]">
                 <input
                   className={`border border-gray-300 ${

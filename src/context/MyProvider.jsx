@@ -100,8 +100,10 @@ export const UserProvider = ({ children }) => {
     try {
       const dbUser = await getDoc(doc(db, "users", uid));
       if (!dbUser.exists()) return;
-      const userData = dbUser.data();
+      // const userData = dbUser.data();
+      const userData = { id: dbUser.id, ...dbUser.data() };
       setUserInfo(userData);
+      // console.log(userData?.id);
       setCustomePermission(userData?.customePermission);
       const dbRoles = await getDoc(doc(db, "roles", userData.role));
       if (dbRoles.exists()) {
