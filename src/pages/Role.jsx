@@ -89,8 +89,8 @@ const Role = () => {
 
   return (
     <>
-      <div>
-        <span className="text-2xl font-semibold ">Role Management Panel</span>
+      <div className="pt-8">
+        <span className="text-3xl font-bold ">Role Management Panel</span>
         <div className="submain w-full flex flex-col">
           <div className="addBtn flex justify-end">
             <PermissionChecker name="add-role">

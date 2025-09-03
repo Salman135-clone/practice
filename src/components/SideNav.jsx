@@ -1,18 +1,26 @@
-import React from "react";
-import { CiUser } from "react-icons/ci";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import React, { useState } from "react";
+
+import { MdManageAccounts } from "react-icons/md";
+
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 import PermissionChecker from "./PermissionChecker";
-import { BanknotesIcon } from "@heroicons/react/24/outline";
-import Transaction from "../pages/Transaction";
-import { CiMoneyCheck1 } from "react-icons/ci";
-import Borrower from "../pages/Borrower";
+import { GrTransaction } from "react-icons/gr";
+
+//
+import { FaHandHoldingUsd } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
+import { MdPostAdd } from "react-icons/md";
+import { FaWallet } from "react-icons/fa";
+import { HiOutlineDocumentReport } from "react-icons/hi";
+import { BiTransfer } from "react-icons/bi";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
 
 const SideNav = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   return (
     <>
       <div className="bg-gray-800 w-[240px] h-full text-white pt-5">
@@ -25,31 +33,17 @@ const SideNav = () => {
                   onClick={() => navigate("/dashboard")}
                   className="flex items-center gap-2 py-2 px-2.5 hover:bg-gray-600 rounded-sm cursor-pointer"
                 >
-                  <svg
-                    className="size-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                  </svg>
+                  <MdDashboard size={20} />
                   Dashboard
                 </a>
               </li>
-              <PermissionChecker>
+              <PermissionChecker name="add-new-post">
                 <li>
                   <a
                     onClick={() => navigate("/post")}
                     className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
                   >
-                    <PostAddIcon />
+                    <MdPostAdd size={20} />
                     Add Post
                   </a>
                 </li>
@@ -60,7 +54,7 @@ const SideNav = () => {
                     onClick={() => navigate("/user")}
                     className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
                   >
-                    <CiUser size={19} />
+                    <FaUsers size={20} />
                     User
                   </a>
                 </li>
@@ -71,7 +65,7 @@ const SideNav = () => {
                     onClick={() => navigate("/borrower")}
                     className="flex items-center gap-2 py-2 px-2.5 cursor-pointer hover:bg-gray-600 rounded-sm"
                   >
-                    <CiMoneyCheck1 className="size-5" />
+                    <RiMoneyDollarCircleLine size={20} />
                     Borrower
                   </a>
                 </li>
@@ -82,7 +76,7 @@ const SideNav = () => {
                     onClick={() => navigate("/transaction")}
                     className="flex items-center gap-2 py-2 px-2.5 cursor-pointer hover:bg-gray-600 rounded-sm"
                   >
-                    <BanknotesIcon className="size-5" />
+                    <GrTransaction size={20} />
                     Transaction
                   </a>
                 </li>
@@ -93,8 +87,7 @@ const SideNav = () => {
                     onClick={() => navigate("/permission")}
                     className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
                   >
-                    <ManageAccountsIcon />
-                    Permission
+                    <MdManageAccounts size={20} /> Permission
                   </a>
                 </li>
               </PermissionChecker>
@@ -104,11 +97,72 @@ const SideNav = () => {
                     onClick={() => navigate("/role")}
                     className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
                   >
-                    <SupervisorAccountIcon />
+                    <FaUserFriends size={20} />
                     Role
                   </a>
                 </li>
               </PermissionChecker>
+
+              <PermissionChecker name="wallet">
+                <li>
+                  <a
+                    onClick={() => navigate("/wallet")}
+                    className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
+                  >
+                    <FaWallet size={20} />
+                    Wallet
+                  </a>
+                </li>
+              </PermissionChecker>
+
+              <li>
+                <a
+                  onClick={() => navigate("/repayment")}
+                  className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
+                >
+                  <FaHandHoldingUsd size={20} />
+                  Repayment
+                </a>
+              </li>
+              {/* <li>
+                <a
+                  onClick={() => navigate("report")}
+                  className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
+                >
+                  <HiOutlineDocumentReport size={20} />
+                  Report
+                </a>
+              </li> */}
+
+              {/* <li>
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="group flex w-full flex-row items-center gap-2 py-2 px-2.5 hover:bg-gray-600 rounded-sm cursor-pointer"
+                >
+                  <FaUserShield size={20} />
+                  <span className="flex-1 text-left"> Roles & Access</span>
+                  <IoChevronUpOutline
+                    size={20}
+                    className={`opacity-0 group-hover:opacity-100  ${
+                      open && "rotate-180"
+                    }`}
+                  />
+                </button>
+                {open && (
+                  <ul className="mt-1 space-y-1 border-l border-gray-600 ml-5">
+                    <li>
+                      <a className="flex items-center gap-2 py-2 px-2.5 ml-0.5  hover:bg-gray-600 rounded-sm cursor-pointer pl-4">
+                        Role
+                      </a>
+                    </li>
+                    <li>
+                      <a className="flex items-center gap-2 py-2 px-2.5 ml-0.5  hover:bg-gray-600 rounded-sm cursor-pointer pl-4">
+                        Permission
+                      </a>
+                    </li>
+                  </ul>
+                )}
+              </li> */}
             </ul>
           </div>
         </nav>

@@ -14,6 +14,10 @@ import Permission from "./pages/Permission";
 import AddRole from "./components/AddRole";
 import Transaction from "./pages/Transaction";
 import Borrower from "./pages/Borrower";
+import Wallet from "./pages/Wallet";
+import Repayment from "./pages/Repayment";
+import Report from "./pages/Report";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -41,6 +45,10 @@ const App = () => {
             <Route path="/permission" element={<Permission />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/borrower" element={<Borrower />} />
+            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/repayment" element={<Repayment />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
       </UserProvider>

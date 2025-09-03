@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { db } from "../constant/Firebase";
 import {
   collection,
@@ -41,7 +43,7 @@ const Dashboard = () => {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [selectCategory, setSelectedCategory] = useState("All");
-  console.log(data);
+  // console.log(sortColumn);
 
   const onViewOpen = () => setIsViewOpen(true);
   const onViewClose = () => setIsViewOpen(false);
@@ -150,6 +152,7 @@ const Dashboard = () => {
         </div>
       ),
     },
+
     {
       header: "Actions",
       disableSort: true,
@@ -195,150 +198,167 @@ const Dashboard = () => {
   ];
   return (
     <>
-      <div className="dashboard ">
-        <div className="right-box w-full">
-          <div className="px-4 mt-5">
-            <div className="">
-              <div className=" flex w-full items-center gap-4 py-2 flex-wrap">
-                <div className="relative sm:w-[40%] max-w-[500px]">
-                  <input
-                    className={`border border-gray-300 ${
-                      search.length > 0 ? `pr-[30px] pl-2` : `pl-[40px]`
-                    } py-1 rounded-sm w-full `}
-                    type="text"
-                    onChange={(e) => handleSearch(e.target.value)}
-                    value={search}
-                    placeholder="Search For Filter"
-                  />
-                  {search.length > 0 ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6 absolute top-1.5 right-1 text-gray-400 hover:text-gray-600 cursor-pointer"
-                      onClick={() => clearSearch()}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18 18 6M6 6l12 12"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6 absolute top-1.5 left-2.5 text-gray-400 cursor-pointer"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
-                      />
-                    </svg>
-                  )}
-                </div>
-                <div>
-                  <select
-                    className="border p-1 rounded-sm border-gray-300 "
-                    value={selectCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                  >
-                    <option value="All" disabled>
-                      Select Category
-                    </option>
-                    {categoriesData.map((cty) => (
-                      <option value={cty.name} key={cty.id}>
-                        {cty.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <Table
-                columns={columns}
-                loading={loading}
-                data={displayData}
-                sortColumn={sortColumn}
-                setSortColumn={setSortColumn}
-                setSortDirection={setSortDirection}
-                sortDirection={sortDirection}
-              />
-            </div>
-          </div>
-          <Dialog open={open} onClose={handleDialog}>
-            <DialogTitle>Confirm Delete</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                <span className="text-red-400">
-                  Are you sure you want to delete this blog?
-                </span>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleDialog} color="primary">
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  deleteHandler(id);
-                  handleDialog();
-                }}
-                color="error"
-              >
-                Confirm
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          <Dialog
-            open={isViewOpen}
-            onClose={onViewClose}
-            fullWidth
-            maxWidth="md"
-          >
-            <DialogTitle>Blog Detail</DialogTitle>
-            <DialogContent dividers>
-              {viewData ? (
-                <>
-                  <Typography variant="subtitle1">
-                    <strong>Title:</strong> {viewData.title}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    <strong>Author:</strong> {viewData.author}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    <strong>Category:</strong> {viewData.category}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    <strong>Created At:</strong> {viewData.createdAt}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{ mt: 2 }}
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
-                        viewData.content || "No description provided."
-                      ),
+      <div className="dashboard pt-8">
+        <span className="font-bold text-3xl">Blog List</span>
+        <div className=" mt-4">
+          <div className="">
+            <div className=" flex w-full items-center gap-4 py-2 mb-2 flex-wrap">
+              <div className="flex gap-1 items-center">
+                <label className="text-sm font-medium text-gray-600">
+                  From:
+                </label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    slotProps={{
+                      textField: { size: "small", fullWidth: true },
                     }}
                   />
-                </>
-              ) : (
-                <Typography>No blog selected.</Typography>
-              )}
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={onViewClose} variant="contained" color="primary">
-                Close
-              </Button>
-            </DialogActions>
-          </Dialog>
+                </LocalizationProvider>
+              </div>
+
+              <div className="flex gap-1 items-center">
+                <label className="text-sm font-medium text-gray-600">To:</label>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    slotProps={{
+                      textField: { size: "small", fullWidth: true },
+                    }}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className="relative min-w-full sm:min-w-[500px]">
+                <input
+                  className={`border border-gray-300 ${
+                    search.length > 0 ? `pr-[30px] pl-2` : `pl-[40px]`
+                  } py-2 rounded-sm w-full `}
+                  type="text"
+                  onChange={(e) => handleSearch(e.target.value)}
+                  value={search}
+                  placeholder="Search For Filter"
+                />
+                {search.length > 0 ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6 absolute top-2 right-1 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    onClick={() => clearSearch()}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6 absolute top-2 left-2.5 text-gray-400 cursor-pointer"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                    />
+                  </svg>
+                )}
+              </div>
+              <div>
+                <select
+                  className="border py-2 px-2 rounded-sm border-gray-300 "
+                  value={selectCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  <option value="All" disabled>
+                    Select Category
+                  </option>
+                  {categoriesData.map((cty) => (
+                    <option value={cty.name} key={cty.id}>
+                      {cty.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <Table
+              columns={columns}
+              loading={loading}
+              data={displayData}
+              sortColumn={sortColumn}
+              setSortColumn={setSortColumn}
+              setSortDirection={setSortDirection}
+              sortDirection={sortDirection}
+            />
+          </div>
         </div>
+        <Dialog open={open} onClose={handleDialog}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <span className="text-red-400">
+                Are you sure you want to delete this blog?
+              </span>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialog} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                deleteHandler(id);
+                handleDialog();
+              }}
+              color="error"
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={isViewOpen} onClose={onViewClose} fullWidth maxWidth="md">
+          <DialogTitle>Blog Detail</DialogTitle>
+          <DialogContent dividers>
+            {viewData ? (
+              <>
+                <Typography variant="subtitle1">
+                  <strong>Title:</strong> {viewData.title}
+                </Typography>
+                <Typography variant="subtitle1">
+                  <strong>Author:</strong> {viewData.author}
+                </Typography>
+                <Typography variant="subtitle1">
+                  <strong>Category:</strong> {viewData.category}
+                </Typography>
+                <Typography variant="subtitle1">
+                  <strong>Created At:</strong> {viewData.createdAt}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ mt: 2 }}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      viewData.content || "No description provided."
+                    ),
+                  }}
+                />
+              </>
+            ) : (
+              <Typography>No blog selected.</Typography>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onViewClose} variant="contained" color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </>
   );

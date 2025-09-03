@@ -20,7 +20,8 @@ const Logout = () => {
     <div>
       <button
         onClick={handleSignout}
-        className="cursor-pointer bg-cyan-800 text-white rounded px-2 py-1"
+        className="cursor-pointer"
+        // className="cursor-pointer bg-cyan-800 text-white rounded px-2 py-1"
       >
         Logout
       </button>

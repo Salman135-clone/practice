@@ -10,6 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [defaultRole, setDefaultRole] = useState("YL7SXFEXXaFbFKL9uK3R");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -52,7 +53,7 @@ const Register = () => {
         uid: result.uid,
         email,
         username,
-        role,
+        role: defaultRole,
       });
       toast.success("Register Successfully");
       clearInput();

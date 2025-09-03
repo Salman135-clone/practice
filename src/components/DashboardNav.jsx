@@ -3,10 +3,21 @@ import Logout from "../Auth/Logout";
 import { useNavigate } from "react-router-dom";
 import { authProvider } from "../context/MyProvider";
 import PermissionChecker from "./PermissionChecker";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User, Settings, LogOut } from "lucide-react";
 
 const DashboardNav = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-  const { roleName } = authProvider();
+  const { roleName, userInfo } = authProvider();
+  // console.log(userInfo);
 
   return (
     <div className="h-[70px] px-4 flex text-center items-center justify-between bg-gray-800 text-white ">
@@ -30,11 +41,50 @@ const DashboardNav = ({ toggleSidebar }) => {
             />
           </svg>
         </button>
-        <span className="font-light text-white">{roleName}</span>
+        <span className="tracking-wider text-white font-medium">
+          {roleName}
+        </span>
       </span>
-      <PermissionChecker name="can-logout">
-        <Logout />
-      </PermissionChecker>
+      <div className="flex gap-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className=" flex items-center gap-2 rounded-md px-3 py-1 cursor-pointer hover:bg-gray-700">
+              <Avatar>
+                <AvatarImage src={userInfo?.image} alt={userInfo?.username} />
+                <AvatarFallback className="bg-green-800">
+                  {userInfo?.username?.charAt(0)?.toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col text-left">
+                <span className="font-medium">
+                  {userInfo?.username.charAt(0)?.toUpperCase() +
+                    userInfo?.username.slice(1)}
+                </span>
+                <span className="text-sm text-gray-300">{userInfo?.email}</span>
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-48" align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate("/profile")}>
+              <User className="mr-2 h-4 w-4" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownMenuItem>
+            <PermissionChecker name="can-logout">
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-red-600 font-medium">
+                <LogOut className="mr-2 h-4 w-4" />
+                <Logout />
+              </DropdownMenuItem>
+            </PermissionChecker>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };

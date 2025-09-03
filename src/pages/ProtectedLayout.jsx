@@ -37,7 +37,6 @@ const ProtectedLayout = ({ children }) => {
               className={`transition-all duration-300 flex-1 ${
                 sidebarOpen ? "ml-60" : "ml-0"
               } overflow-y-auto p-4 bg-gray-50`}
-              // style={{ marginLeft: sidebarOpen ? "15rem" : "0" }}
             >
               {children || <Outlet />}
             </main>

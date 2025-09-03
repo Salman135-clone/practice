@@ -97,13 +97,15 @@ const UserList = () => {
         customePermission: extraPermission,
       });
       toast.success("Role updated");
-      setRole("");
-      setExtraPermission([]);
+
       await userFetch();
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
+      setOpen(false);
+      setRole("");
+      setExtraPermission([]);
     }
   };
 
@@ -185,8 +187,9 @@ const UserList = () => {
   ];
   return (
     <>
-      <div className="w-full">
-        <div className="m-auto ">
+      <div className="w-full pt-5">
+        <span className="font-bold text-3xl">User List</span>
+        <div className="m-auto mt-5 ">
           <Table
             columns={columns}
             loading={loading}

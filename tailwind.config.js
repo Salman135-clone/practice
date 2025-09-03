@@ -1,14 +1,12 @@
-// tailwind.config.js
-const {heroui} = require("@heroui/theme");
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: [
-    "./node_modules/@heroui/theme/dist/components/modal.js",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // important!
   ],
   theme: {
     extend: {},
   },
-  darkMode: "class",
-  plugins: [heroui()],
+  plugins: [require("tailwindcss-animate")],
 };

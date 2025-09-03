@@ -3,10 +3,17 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../constant/Firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../constant/Firebase";
 
 const Usercontext = createContext();
@@ -23,12 +30,9 @@ export const UserProvider = ({ children }) => {
   const [combine, setCombine] = useState([]);
   const [roleName, setRoleName] = useState("");
   const [allBorrowerList, setAllBorrowerList] = useState([]);
-  // console.log(rolesList);
-  // console.log(user);
-  // console.log(userInfo);
-  // console.log(customePermission);
-  // console.log(combine);
-  console.log(roleName);
+  const [loadingBorrower, setLoadingBorrower] = useState(true);
+  // const [userBalance, setUserBalance] = useState(null);
+  // console.log(userBalance);
 
   const categoriesData = [
     { id: 1, name: "Tech" },
@@ -97,6 +101,7 @@ export const UserProvider = ({ children }) => {
       const dbUser = await getDoc(doc(db, "users", uid));
       if (!dbUser.exists()) return;
       const userData = dbUser.data();
+      setUserInfo(userData);
       setCustomePermission(userData?.customePermission);
       const dbRoles = await getDoc(doc(db, "roles", userData.role));
       if (dbRoles.exists()) {
@@ -134,12 +139,12 @@ export const UserProvider = ({ children }) => {
   const logout = async () => {
     await signOut(auth);
     setUser(null);
-    setUserInfo(null);
+    // setUserInfo(null);
     localStorage.removeItem("uid");
   };
 
   useEffect(() => {
-    setLoading(true);
+    setLoadingBorrower(true);
     const q = onSnapshot(
       collection(db, "borrower"),
       (snapshot) => {
@@ -148,15 +153,38 @@ export const UserProvider = ({ children }) => {
           ...doc.data(),
         }));
         setAllBorrowerList(result);
-        setLoading(false);
+        // setLoadingBorrower(false);
+        setTimeout(() => {
+          setLoadingBorrower(false);
+        }, 2000);
       },
       (error) => {
         toast.error(error);
-        setLoading(false);
+        setLoadingBorrower(false);
       }
     );
     return () => q();
   }, []);
+
+  // useEffect(() => {
+  //   if (!user?.uid) return;
+  //   const balanceDB = collection(db, "wallet");
+  //   let q = query(balanceDB, where("uid", "==", user.uid));
+  //   const fetchBalance = onSnapshot(
+  //     q,
+  //     (snapshot) => {
+  //       const result = snapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setUserBalance(result);
+  //     },
+  //     (error) => {
+  //       throw error;
+  //     }
+  //   );
+  //   return () => fetchBalance();
+  // }, [user?.uid]);
 
   const hasPermission = (permName) => combine.includes(permName);
 
@@ -176,6 +204,7 @@ export const UserProvider = ({ children }) => {
         allPermission,
         roleName,
         allBorrowerList,
+        loadingBorrower,
       }}
     >
       {children}

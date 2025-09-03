@@ -43,7 +43,7 @@ const Table = ({
       <div className="main w-full overflow-auto m-auto">
         {/* <h2 className="titlet text-xl font-semibold mb-2">Blog List</h2> */}
         <table className="w-full text-left whitespace-nowrap border-b border-gray-200  rounded-lg overflow-hidden ">
-          <thead className="bg-gray-100 cursor-pointer  ">
+          <thead className="bg-gray-800 cursor-pointer text-white  ">
             <tr>
               {columns.map((col, index) => (
                 <th
@@ -51,7 +51,7 @@ const Table = ({
                   key={index}
                   className="font-semibold"
                 >
-                  <span className="flex px-3 py-2 items-center gap-1 text-center">
+                  <span className="flex px-3 py-4 items-center gap-1 text-center">
                     {col.header}
                     {!col.disableSort &&
                       sortColumn === col.accessor &&
@@ -65,7 +65,7 @@ const Table = ({
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-gray-100">
             {loading && (
               <tr>
                 <td colSpan={columns.length}>
@@ -82,7 +82,7 @@ const Table = ({
                     } border-gray-200`}
                   >
                     {(columns || []).map((col, colIndex) => (
-                      <td key={colIndex} className="px-3 py-2 truncate">
+                      <td key={colIndex} className="px-3 py-3 truncate">
                         {col.render
                           ? col.render(dataRow)
                           : dataRow[col.accessor]}
@@ -91,7 +91,7 @@ const Table = ({
                   </tr>
                 ))
               : !loading && (
-                  <tr className="text-center text-2xl font-semibold">
+                  <tr className="text-center text-2xl font-medium">
                     <td colSpan={columns.length} className="mt-5 text-gray-400">
                       No data available.
                     </td>
