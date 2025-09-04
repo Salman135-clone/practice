@@ -18,6 +18,7 @@ import Wallet from "./pages/Wallet";
 import Repayment from "./pages/Repayment";
 import Report from "./pages/Report";
 import Profile from "./pages/Profile";
+import VerifyPage from "./pages/VerifyPage";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="/repayment" element={<Repayment />} />
             <Route path="/report" element={<Report />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/verify" element={<VerifyPage />} />
           </Route>
         </Routes>
       </UserProvider>

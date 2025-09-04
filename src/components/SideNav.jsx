@@ -114,16 +114,18 @@ const SideNav = () => {
                   </a>
                 </li>
               </PermissionChecker>
+              <PermissionChecker name="manage-repayment">
+                <li>
+                  <a
+                    onClick={() => navigate("/repayment")}
+                    className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
+                  >
+                    <FaHandHoldingUsd size={20} />
+                    Repayment
+                  </a>
+                </li>
+              </PermissionChecker>
 
-              <li>
-                <a
-                  onClick={() => navigate("/repayment")}
-                  className="flex items-center gap-2 py-2 px-2.5  hover:bg-gray-600 rounded-sm cursor-pointer"
-                >
-                  <FaHandHoldingUsd size={20} />
-                  Repayment
-                </a>
-              </li>
               {/* <li>
                 <a
                   onClick={() => navigate("report")}

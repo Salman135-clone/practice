@@ -27,9 +27,9 @@ const Profile = () => {
   const auth = getAuth();
   const userAuth = auth.currentUser;
 
-  console.log(userAuth);
-  console.log(user);
-  console.log(userInfo?.id);
+  // console.log(userAuth);
+  // console.log(user);
+  // console.log(userInfo?.id);
 
   const [profileData, setProfileData] = useState({
     username: userInfo?.username || "",
@@ -70,15 +70,15 @@ const Profile = () => {
   const handleProfileUpdate = async () => {
     setLoadingProfile(true);
     try {
-      if (userAuth) {
-        await verifyBeforeUpdateEmail(userAuth, profileData.email);
-        toast.info(
-          "A verification email has been sent to your new email. Please confirm to complete the update."
-        );
-        await updateEmail(userAuth, profileData.email);
+      if (userInfo.username !== profileData.username) {
+        await profileUpdateUserDb();
+        toast.success("Username updated!");
       }
-      //   await profileUpdateUserDb();
-      //   toast.success("Profile updated!");
+      if (userAuth.email !== profileData.email) {
+        await verifyBeforeUpdateEmail(user, profileData.email);
+
+        toast.info("Verification email sent. Please check your inbox.");
+      }
     } catch (error) {
       throw error;
     } finally {
@@ -87,17 +87,7 @@ const Profile = () => {
   };
 
   const handlePasswordUpdate = async () => {
-    if (passwordData.newPass !== passwordData.confirmPass) {
-      alert("New password and confirmation do not match.");
-      return;
-    }
-    setLoadingPassword(true);
-    try {
-      await new Promise((res) => setTimeout(res, 1200));
-      alert("Password updated!");
-    } finally {
-      setLoadingPassword(false);
-    }
+    alert("New password and confirmation do not match.");
   };
 
   return (

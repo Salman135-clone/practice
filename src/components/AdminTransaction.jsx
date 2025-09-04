@@ -451,7 +451,7 @@ const AdminTransaction = () => {
           statusClass = "text-red-600 border border-red-300 px-2 py-1 rounded";
         } else if (dataRow.status === "revert") {
           statusClass =
-            "border border-yellow-600 text-yellow-600 px-2 py-1 rounded-md";
+            " border border-yellow-600 text-yellow-600 px-2 py-1 rounded";
         }
         return (
           <span className={`${statusClass} `}>
