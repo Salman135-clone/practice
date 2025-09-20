@@ -37,6 +37,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify" element={<VerifyPage />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/post/:id?" element={<Post />} />
@@ -50,7 +51,6 @@ const App = () => {
             <Route path="/repayment" element={<Repayment />} />
             <Route path="/report" element={<Report />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/verify" element={<VerifyPage />} />
           </Route>
         </Routes>
       </UserProvider>

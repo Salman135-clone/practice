@@ -9,13 +9,13 @@ const VerifyPage = () => {
     const params = new URLSearchParams(location.search);
     const oobCode = params.get("oobCode");
 
-    if (oobCode) {
-      alert("We have code: " + oobCode);
+    if (!oobCode) {
+      alert(oobCode);
     }
   }, [location]);
   return (
     <>
-      <div>Verify Page</div>
+      <div classname="red">Verify Page</div>
     </>
   );
 };
